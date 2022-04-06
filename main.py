@@ -4,6 +4,8 @@ from time import sleep
 import requests
 import os, sys, subprocess
 
+dsadasdasd
+
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_BUCKET_NAME = 'practisebucketaws'
@@ -16,7 +18,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/5
 with pdfplumber.open('The Girl with the Dragon Tattoo.pdf') as pdf:
     all_pages = pdf.pages
     full_text = ''
-    for page in all_pages[:20]:
+    for page in all_pages:
         single_page_text = page.extract_text(x_tolerance=1)
         full_text = full_text + '\n' + single_page_text
 
@@ -38,7 +40,7 @@ mp3_uri = response['SynthesisTask']['OutputUri']
 
 # Wait for speech to be fully synthesisedd
 retries = 0
-max_retries = 10
+max_retries = 30
 still_try = True
 while retries < max_retries and still_try == True:
     if requests.get(mp3_uri, headers=headers).status_code != 200:
