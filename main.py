@@ -36,7 +36,7 @@ response = polly_client.start_speech_synthesis_task(VoiceId='Joanna',
 # Get mp3 file uri from response
 mp3_uri = response['SynthesisTask']['OutputUri']
 
-# Wait for speech to be fully synthesisedd
+# Wait for speech to be fully synthesised
 retries = 0
 max_retries = 30
 still_try = True
