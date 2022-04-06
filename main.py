@@ -38,7 +38,7 @@ mp3_uri = response['SynthesisTask']['OutputUri']
 
 # Wait for speech to be fully synthesised
 retries = 0
-max_retries = 19
+max_retries = 30
 still_try = True
 while retries < max_retries and still_try == True:
     if requests.get(mp3_uri, headers=headers).status_code != 200:
