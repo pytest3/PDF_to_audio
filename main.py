@@ -3,6 +3,7 @@ import pdfplumber
 from time import sleep
 import requests
 import os, sys, subprocess
+from pydub import AudioSegment
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -58,15 +59,20 @@ for count, text in enumerate(split_text):
             # Get synthesised speech as a mp3 file
             response = requests.get(mp3_uri, headers=headers)
             with open(f'audiobook_part_{count}.mp3', 'wb') as file:
-                audio_file = file.write(response.content)
-                audio_files.append(audio_file)
+                file.write(response.content)
+                audio_files.append(f'audiobook_part_{count}.mp3')
             still_try = False
 
-print(len(audio_files))
+# Concat all mp3 files
+audiobook_complete = AudioSegment.empty()
+for audio_file in audio_files:
+    audiobook_complete += AudioSegment.from_mp3(audio_file)
 
-# Play audiobook
-# if sys.platform == "win32":
-#     os.startfile('audiobook.mp3')
-# else:
-#     opener = "open" if sys.platform == "darwin" else "xdg-open"
-#     subprocess.call([opener, 'audiobook.mp3'])
+audiobook_complete.export("audiobook_complete.mp3", format="mp3")
+
+# Play audiobook complete
+if sys.platform == "win32":
+    os.startfile('audiobook_complete.mp3')
+else:
+    opener = "open" if sys.platform == "darwin" else "xdg-open"
+    subprocess.call([opener, 'audiobook_complete.mp3'])
