@@ -20,10 +20,19 @@ with pdfplumber.open('The Girl with the Dragon Tattoo.pdf') as pdf:
         single_page_text = page.extract_text(x_tolerance=1)
         full_text = full_text + '\n' + single_page_text
 
+# Split text into chunks of 100000 words
+text_limit = 10000
+split_text = []
+for i in range(0, len(full_text), text_limit):
+    split_text.append(full_text[i:i+text_limit])
+    print(len(full_text[i:i+text_limit]))
+
 # Create a boto3 session
 polly_client = boto3.Session(aws_access_key_id=AWS_ACCESS_KEY_ID,
                              aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
                              region_name=region).client('polly')
+
+
 
 # Request speech synthesis
 response = polly_client.start_speech_synthesis_task(VoiceId='Joanna',
