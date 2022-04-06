@@ -14,7 +14,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/5
 
 # Extract text from pdf
 with pdfplumber.open('The Girl with the Dragon Tattoo.pdf') as pdf:
-    all_pages = pdf.pages
+    all_pages = pdf.pages[:20]
     full_text = ''
     for page in all_pages:
         single_page_text = page.extract_text(x_tolerance=1)
